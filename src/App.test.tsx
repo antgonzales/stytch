@@ -1,9 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from './testUtils';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('<App />', () => {
+  it('searches for Star Wars people', async () => {
+    render(<App />);
+    const textInput = screen.getByLabelText(/Search people input/i);
+    fireEvent.change(textInput, {target: {value: 'r2'}});
+    expect(await screen.findByText('R2-D2')).toBeInTheDocument();
+  });
 });
